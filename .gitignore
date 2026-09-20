@@ -4,3 +4,9 @@
 
 # OS files
 .DS_Store
+
+Blog_aggregator_bootdev
+repl.log
+
+go.work
+go.work.sum

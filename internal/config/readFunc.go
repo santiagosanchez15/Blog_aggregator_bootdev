@@ -24,6 +24,7 @@ func Read() (Config, error) {
 	if err != nil {
 		return Config{}, fmt.Errorf("Error when decoding the file and passing to struct| %w", err) //return error
 	}
+
 	return new_config, nil //return new config
 
 }

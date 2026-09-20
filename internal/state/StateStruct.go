@@ -5,5 +5,5 @@ import (
 )
 
 type State struct {
-	pConfig *config.Config
+	Pconfig *config.Config
 }

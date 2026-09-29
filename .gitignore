@@ -10,3 +10,13 @@ repl.log
 
 go.work
 go.work.sum
+
+# Local config/secrets
+.gatorconfig.json
+.env
+
+# Go build artifacts
+*.exe
+*.test
+*.out
+gator

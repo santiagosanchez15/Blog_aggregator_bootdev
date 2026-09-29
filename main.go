@@ -5,9 +5,14 @@ import (
 
 	"os"
 
+	"database/sql"
+
 	"github.com/santiagosanchez15/Blog_aggregator_bootdev/internal/commands"
 	"github.com/santiagosanchez15/Blog_aggregator_bootdev/internal/config"
+	"github.com/santiagosanchez15/Blog_aggregator_bootdev/internal/database"
 	"github.com/santiagosanchez15/Blog_aggregator_bootdev/internal/state"
+
+	_ "github.com/lib/pq"
 )
 
 func main() {
@@ -20,9 +25,26 @@ func main() {
 		os.Exit(2)
 	}
 	s.Pconfig = &c // get pointer to config struct
+	dbURL := s.Pconfig.DBURL
+
+	db, err := sql.Open("postgres", dbURL)
+	if err != nil {
+		fmt.Printf("Error when opening data base %v", err)
+		os.Exit(2)
+	}
+	defer db.Close()
+
+	dbQueries := database.New(db)
+	s.Db = dbQueries
 
 	// Initialize the commands
-	m := commands.InitializeCommandsMap()   //create map of commands
+	m := commands.InitializeCommandsMap() //create map of commands
+	err = m.Register("register", commands.Register)
+	if err != nil {
+		fmt.Printf("Error Given : %v\n", err)
+		os.Exit(2)
+	}
+
 	err = m.Register("login", handlerLogin) // Add the command to the commands map
 	if err != nil {                         // check if register got an error
 		fmt.Printf("Error given : %v\n", err)

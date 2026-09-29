@@ -3,6 +3,8 @@ package main
 import (
 	"fmt"
 
+	"context"
+
 	"github.com/santiagosanchez15/Blog_aggregator_bootdev/internal/commands"
 	"github.com/santiagosanchez15/Blog_aggregator_bootdev/internal/state"
 )
@@ -14,8 +16,16 @@ func handlerLogin(s *state.State, cmd commands.Command) error {
 		return fmt.Errorf("the login handler expects a single argument, the username")
 	}
 	name := cmd.Args[0] // get username
+	username, err := s.Db.GetUser(context.Background(), name)
 
-	s.Pconfig.SetUser(name)               // set username
+	if err != nil {
+		return fmt.Errorf("User doesnt exist| error %w", err)
+	}
+
+	err = s.Pconfig.SetUser(username) // set username
+	if err != nil {
+		return fmt.Errorf("Error when setting user %w", err)
+	}
 	fmt.Printf("The user has been set\n") // print success
 
 	return nil

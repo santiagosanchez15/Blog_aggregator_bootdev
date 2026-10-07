@@ -45,6 +45,12 @@ func main() {
 		os.Exit(2)
 	}
 
+	err = m.Register("reset", commands.Reset)
+	if err != nil {
+		fmt.Printf("Problem when reseting the table| Erro given: %v\n", err)
+		os.Exit(2)
+	}
+
 	err = m.Register("login", handlerLogin) // Add the command to the commands map
 	if err != nil {                         // check if register got an error
 		fmt.Printf("Error given : %v\n", err)
@@ -66,5 +72,6 @@ func main() {
 		fmt.Printf("Error given : %v\n", err)
 		os.Exit(1)
 	}
+
 	os.Exit(0)
 }

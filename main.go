@@ -57,6 +57,12 @@ func main() {
 		os.Exit(2)
 	}
 
+	err = m.Register("users", commands.Users)
+	if err != nil {
+		fmt.Printf("Error when retrieving users| ERROR: %v ", err)
+		os.Exit(2)
+	}
+
 	// Create command and get args
 	allArgs := os.Args               // get cli arguments
 	args, err := getCliArgs(allArgs) // split and get useful args
